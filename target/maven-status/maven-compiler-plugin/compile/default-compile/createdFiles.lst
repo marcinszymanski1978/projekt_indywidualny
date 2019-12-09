@@ -1,0 +1,8 @@
+hibernate\HibernateEntity.class
+monitoredElements\Glucose.class
+hibernate\HibernateConfig.class
+monitoredElements\Ingredients.class
+controller\GlucoseController.class
+hibernate\HibernateDao.class
+monitoredElements\Meals.class
+monitoredElements\MesurmentState.class
