@@ -7,5 +7,11 @@
       <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
       <jdbc-url>jdbc:sqlserver://ERAZER\SQLEXPRESS:1433;database=CONNECTIS</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="01452062_db@c2.home.pl" uuid="14a85bf1-1a88-4350-81cb-36aeba1a8870">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://c2.home.pl:3306/01452062_db</jdbc-url>
+    </data-source>
   </component>
 </project>

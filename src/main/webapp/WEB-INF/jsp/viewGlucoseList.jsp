@@ -31,10 +31,60 @@
 
             </td>
         </tr>
+
     </c:forEach>
 
 
 </table>
+<br/>
+
+<div id="chartContainer" style="height: 300px; width: 100%;">
+</div>
+<script type="text/javascript">
+    window.onload = function () {
+
+        var dps =   [];
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+
+            theme: "light2",
+
+            title:{
+                text: "Fruits sold in First & Second Quarter"
+            },
+
+            data: [  //array of dataSeries
+                { //dataSeries - first quarter
+                    /*** Change type "column" to "bar", "area", "line" or "pie"***/
+                    type: "column",
+                    name: "First Quarter",
+                    showInLegend: true,
+                    dataPoints: dps
+                },
+
+            ],
+            /** Set axisY properties here*/
+            axisY:{
+                prefix: "$",
+                suffix: "K",
+                includeZero: false
+            }
+        });
+
+        <c:forEach items="${glucoseList}" var="dataPoint">
+        date = ("${dataPoint.date.toString()}");
+        yValue = parseInt("${dataPoint.glucose}");
+        dps.push({
+            label: date,
+            y : yValue,
+        });
+        </c:forEach>
+
+        chart.render();
+    }
+</script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 <br/>
     <td>
         <form:form method="post" action="refresh">
