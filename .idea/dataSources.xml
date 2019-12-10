@@ -12,6 +12,9 @@
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://c2.home.pl:3306/01452062_db</jdbc-url>
+      <driver-properties>
+        <property name="serverTimezone" value="utc" />
+      </driver-properties>
     </data-source>
   </component>
 </project>

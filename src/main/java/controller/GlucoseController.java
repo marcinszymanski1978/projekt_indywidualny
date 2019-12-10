@@ -22,7 +22,12 @@ public class GlucoseController {
 
     public GlucoseController() {
         glucoseDao = new HibernateDao();
+        try{
         glucoseList = glucoseDao.getGlucoseLevels();
+            }
+        catch (NullPointerException e){
+            e.getMessage();
+        }
 
     }
 

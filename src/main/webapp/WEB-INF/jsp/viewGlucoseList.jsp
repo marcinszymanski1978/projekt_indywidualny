@@ -50,24 +50,24 @@
             theme: "light2",
 
             title:{
-                text: "Fruits sold in First & Second Quarter"
+                text: "Glucose measurement chartr"
             },
 
             data: [  //array of dataSeries
                 { //dataSeries - first quarter
                     /*** Change type "column" to "bar", "area", "line" or "pie"***/
-                    type: "column",
-                    name: "First Quarter",
-                    showInLegend: true,
+                    type: "area",
+                    name: "",
+                    showInLegend: false,
                     dataPoints: dps
                 },
 
             ],
             /** Set axisY properties here*/
             axisY:{
-                prefix: "$",
-                suffix: "K",
-                includeZero: false
+                prefix: "",
+                suffix: "mg/l",
+                includeZero: true
             }
         });
 
