@@ -20,6 +20,7 @@ public class GlucoseController {
     private List<Ingredients> ingredientsList;
     private HibernateDao glucoseDao;
 
+
     public GlucoseController() {
         glucoseDao = new HibernateDao();
         try{
@@ -43,10 +44,15 @@ public class GlucoseController {
 
         if(glucoseMeasurement.getId()!=null) {
             //update
-            System.out.println("Update measurement nr: "+ getGlucoseMeasurementById(glucoseMeasurement.getId()));
-            getGlucoseMeasurementById(glucoseMeasurement.getId()).setDate(glucoseMeasurement.getDate());
-            getGlucoseMeasurementById(glucoseMeasurement.getId()).setGlucose(glucoseMeasurement.getGlucose());
-            getGlucoseMeasurementById(glucoseMeasurement.getId()).setMesurmentStates(glucoseMeasurement.getMesurmentStates());
+
+
+            if (!(glucoseDao.updateHibernateEntity(glucoseMeasurement).equals("COMMITTED"))) {
+
+                System.out.println("Update measurement nr: " + getGlucoseMeasurementById(glucoseMeasurement.getId()));
+                getGlucoseMeasurementById(glucoseMeasurement.getId()).setDate(glucoseMeasurement.getDate());
+                getGlucoseMeasurementById(glucoseMeasurement.getId()).setGlucose(glucoseMeasurement.getGlucose());
+                getGlucoseMeasurementById(glucoseMeasurement.getId()).setMesurmentStates(glucoseMeasurement.getMesurmentStates());
+            }
             glucoseDao.updateHibernateEntity(glucoseMeasurement);
 
             
@@ -54,14 +60,17 @@ public class GlucoseController {
          else {
 
             //add new
+            if (!(glucoseDao.saveHibernateEntity(glucoseMeasurement).equals("COMMITTED"))) {
             System.out.println(glucoseMeasurement.getDate()
                     + " " + glucoseMeasurement.getGlucose()
                     + " " + glucoseMeasurement.getMesurmentStates()
                     +" was saved");
             System.out.println("New glucose measurement");
             glucoseMeasurement.setId(glucoseList.size() + 1);
-            glucoseList.add(glucoseMeasurement);
+            glucoseList.add(glucoseMeasurement);}
             glucoseDao.saveHibernateEntity(glucoseMeasurement);
+
+
         }
 
         return new ModelAndView("redirect:/viewGlucoseList");
@@ -72,8 +81,13 @@ public class GlucoseController {
 
         Glucose glucose_to_delete = getGlucoseMeasurementById(Integer.parseInt(id));
 
+        if (!(glucoseDao.deleteHibernateEntity(glucose_to_delete).equals("COMMITTED"))) {
+
         glucoseList.remove(glucose_to_delete);
-        glucoseDao.deleteHibernateEntity(glucose_to_delete);
+
+        }
+
+
         System.out.println("Delete "+ glucose_to_delete );
 
 
@@ -100,8 +114,8 @@ public class GlucoseController {
 
     @RequestMapping("/viewGlucoseList")
     public ModelAndView viewGlucoseList(){
-
-
+        glucoseList.clear();
+        glucoseList = glucoseDao.getGlucoseLevels();
         return new ModelAndView("viewGlucoseList","glucoseList", glucoseList);
     }
 

@@ -30,10 +30,7 @@ public class HibernateConfig {
                 configuration.setProperties(settings);
 
                 configuration.addAnnotatedClass(Glucose.class);
-//                configuration.addAnnotatedClass(Phones.class);
-//                configuration.addAnnotatedClass(Cars.class);
-//                configuration.addAnnotatedClass(Printer.class);
-////                configuration.addAnnotatedClass(Avatar.class);
+
 
                 ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);

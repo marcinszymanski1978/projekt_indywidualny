@@ -3,58 +3,88 @@ package hibernate;
 import monitoredElements.Glucose;
 import monitoredElements.Ingredients;
 import monitoredElements.Meals;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
+import java.util.Map;
 
 public class HibernateDao implements HibernateEntity {
+   private String transactionStatus;
+   private Map<Integer,String> sessionInfo;
 
-    public void saveHibernateEntity(HibernateEntity hibernateEntity) {
+
+    public String  saveHibernateEntity(HibernateEntity hibernateEntity) {
         Transaction transaction = null;
-        try (Session session = HibernateConfig.getSessionFactory().openSession()) {
+        Session session = HibernateConfig.getSessionFactory().openSession();
+        try {
             transaction = session.beginTransaction();
             session.save(hibernateEntity);
             transaction.commit();
-        } catch (Exception e) {
+            transactionStatus = getTransactionStatus(transaction);
+
+        } catch (HibernateException e) {
             if (transaction != null) {
                 transaction.rollback();
+                transactionStatus = getTransactionStatus(transaction);
             }
             e.printStackTrace();
+
         }
-    }
+        finally {if(session!=null){
+            sessionInfo.put(session.hashCode(),transactionStatus);
+            session.close();}
+        }
 
+    return transactionStatus;}
 
-
-    public void updateHibernateEntity(HibernateEntity hibernateEntity) {
+    public String updateHibernateEntity(HibernateEntity hibernateEntity) {
         Transaction transaction = null;
-        try (Session session = HibernateConfig.getSessionFactory().openSession()) {
+        Session session = HibernateConfig.getSessionFactory().openSession();
+
+        try {
             transaction = session.beginTransaction();
             session.update(hibernateEntity);
             transaction.commit();
+            transactionStatus = getTransactionStatus(transaction);
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
+                transactionStatus = getTransactionStatus(transaction);
             }
             e.printStackTrace();
+
         }
-    }
+        finally {if(session!=null){
+            sessionInfo.put(session.hashCode(),transactionStatus);
+            session.close();}
+        }
+    return transactionStatus; }
 
-    public void deleteHibernateEntity(HibernateEntity hibernateEntity) {
-
-
+    public String deleteHibernateEntity(HibernateEntity hibernateEntity) {
         Transaction transaction = null;
-        try (Session session = HibernateConfig.getSessionFactory().openSession()) {
+        Session session = HibernateConfig.getSessionFactory().openSession();
+        try {
             transaction = session.beginTransaction();
             session.delete(hibernateEntity);
             transaction.commit();
+            transactionStatus = getTransactionStatus(transaction);
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
+                transactionStatus = getTransactionStatus(transaction);
             }
             e.printStackTrace();
+        } finally {
+            if (session != null) {
+                sessionInfo.put(session.hashCode(),transactionStatus);
+                session.close();
+
+            }
+
         }
-    }
+    return transactionStatus;}
 
     public List<Glucose> getGlucoseLevels() {
         try (Session session = HibernateConfig.getSessionFactory().openSession()) {
@@ -62,19 +92,10 @@ public class HibernateDao implements HibernateEntity {
         }
     }
 
-    public List<Meals> getMeals() {
-        try (Session session = HibernateConfig.getSessionFactory().openSession()) {
-            return session.createQuery("from Meals", Meals.class).list();
+    public String getTransactionStatus(Transaction transaction) {
+        System.out.println(transaction.getStatus());
+            return transaction.getStatus().toString();
         }
-    }
-
-
-    public List<Ingredients> getIngredients() {
-        try (Session session = HibernateConfig.getSessionFactory().openSession()) {
-            return session.createQuery("from Ingredients", Ingredients.class).list();
-
-        }
-    }
 
 
 
