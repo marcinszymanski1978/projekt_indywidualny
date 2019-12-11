@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import java.util.List;
 
 @Controller
@@ -53,7 +54,7 @@ public class GlucoseController {
                 getGlucoseMeasurementById(glucoseMeasurement.getId()).setGlucose(glucoseMeasurement.getGlucose());
                 getGlucoseMeasurementById(glucoseMeasurement.getId()).setMesurmentStates(glucoseMeasurement.getMesurmentStates());
             }
-            glucoseDao.updateHibernateEntity(glucoseMeasurement);
+//            glucoseDao.updateHibernateEntity(glucoseMeasurement);
 
             
         }
@@ -68,7 +69,7 @@ public class GlucoseController {
             System.out.println("New glucose measurement");
             glucoseMeasurement.setId(glucoseList.size() + 1);
             glucoseList.add(glucoseMeasurement);}
-            glucoseDao.saveHibernateEntity(glucoseMeasurement);
+//            glucoseDao.saveHibernateEntity(glucoseMeasurement);
 
 
         }
@@ -83,7 +84,7 @@ public class GlucoseController {
 
         if (!(glucoseDao.deleteHibernateEntity(glucose_to_delete).equals("COMMITTED"))) {
 
-        glucoseList.remove(glucose_to_delete);
+//        glucoseList.remove(glucose_to_delete);
 
         }
 

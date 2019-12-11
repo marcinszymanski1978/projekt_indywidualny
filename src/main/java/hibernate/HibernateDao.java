@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class HibernateDao implements HibernateEntity {
    private String transactionStatus;
-   private Map<Integer,String> sessionInfo;
+
 
 
     public String  saveHibernateEntity(HibernateEntity hibernateEntity) {
@@ -33,7 +33,7 @@ public class HibernateDao implements HibernateEntity {
 
         }
         finally {if(session!=null){
-            sessionInfo.put(session.hashCode(),transactionStatus);
+
             session.close();}
         }
 
@@ -57,7 +57,7 @@ public class HibernateDao implements HibernateEntity {
 
         }
         finally {if(session!=null){
-            sessionInfo.put(session.hashCode(),transactionStatus);
+
             session.close();}
         }
     return transactionStatus; }
@@ -78,7 +78,7 @@ public class HibernateDao implements HibernateEntity {
             e.printStackTrace();
         } finally {
             if (session != null) {
-                sessionInfo.put(session.hashCode(),transactionStatus);
+
                 session.close();
 
             }
