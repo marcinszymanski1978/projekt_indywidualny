@@ -4,7 +4,11 @@ import hibernate.HibernateDao;
 import monitoredElements.Glucose;
 import monitoredElements.Ingredients;
 import monitoredElements.Meals;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,14 +20,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@Scope("session")
+@Scope(value="session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class GlucoseController {
     private List<Glucose> glucoseList;
     private List<Meals> mealsList;
     private List<Ingredients> ingredientsList;
     private HibernateDao glucoseDao;
 
-
+    @Autowired
     public GlucoseController() {
 
         glucoseDao = new HibernateDao();
@@ -35,6 +39,7 @@ public class GlucoseController {
         }
 
     }
+
 
     @RequestMapping("/glucoseForm")
     public ModelAndView showform(){
