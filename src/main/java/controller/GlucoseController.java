@@ -4,6 +4,7 @@ import hibernate.HibernateDao;
 import monitoredElements.Glucose;
 import monitoredElements.Ingredients;
 import monitoredElements.Meals;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
+@Scope("session")
 public class GlucoseController {
     private List<Glucose> glucoseList;
     private List<Meals> mealsList;
@@ -23,6 +25,7 @@ public class GlucoseController {
 
 
     public GlucoseController() {
+
         glucoseDao = new HibernateDao();
         try{
         glucoseList = glucoseDao.getGlucoseLevels();
@@ -110,7 +113,7 @@ public class GlucoseController {
     @RequestMapping(value="/homePage", method=RequestMethod.POST)
     public ModelAndView start(){
         System.out.println("Back to Home Page");
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:");
     }
 
     @RequestMapping("/viewGlucoseList")

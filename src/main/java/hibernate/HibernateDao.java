@@ -6,9 +6,12 @@ import monitoredElements.Meals;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+
 
 public class HibernateDao implements HibernateEntity {
    private String transactionStatus;
@@ -18,6 +21,7 @@ public class HibernateDao implements HibernateEntity {
     public String  saveHibernateEntity(HibernateEntity hibernateEntity) {
         Transaction transaction = null;
         Session session = HibernateConfig.getSessionFactory().openSession();
+
         try {
             transaction = session.beginTransaction();
             session.save(hibernateEntity);
